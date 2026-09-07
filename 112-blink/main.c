@@ -2,7 +2,7 @@
 #include "hardware/gpio.h"
 // на проверку
 const uint LED_PIN = 25;
-
+const uint Empty = 0;
 int main()
 {
     // весь дальнейший код пишем здесь
