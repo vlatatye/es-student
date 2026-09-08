@@ -2,6 +2,7 @@
 #include "hardware/gpio.h"
 
 const uint LED_PIN = 25;
+const uint EMPTY = 0;
 
 int main()
 {
