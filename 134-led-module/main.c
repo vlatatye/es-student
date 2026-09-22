@@ -3,6 +3,7 @@
 #include "hardware/gpio.h"
 #include "led.h"
 #include "log.h"
+#include "device.h"
 
 // button
 
