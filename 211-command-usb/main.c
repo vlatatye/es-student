@@ -59,7 +59,7 @@ const struct command_t commands[] = {
     { "fw_info", cmd_fw_info }
 };
 const uint command_count = sizeof(commands) / sizeof(commands[0]);
-//#define COMMAND_COUNT (sizeof(commands) / sizeof(commands[0]))
+//#define  (sizeof(commands) / sizeof(commands[0]))
 // строковая команда
 #define LINE_SIZE 32
 

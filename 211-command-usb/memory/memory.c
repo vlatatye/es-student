@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include "hardware/regs/addressmap.h"
 #include "pico/stdlib.h"
-#include "stdlib.h"
+#include <stdlib.h>
 #include "command.h"
 #include "device.h"
 extern char __flash_binary_start;
@@ -79,7 +79,7 @@ void fw_info(void)
        printf("commands        0x%-08x\n", (uintptr_t)&commands);
        for (uint i = 0; i < command_count; i++)
        {
-           printf("-%-13s 0x%-08x\n", commands[i].name,(uintptr_t)&commands[i].handler);      
+           printf("-%-13s  0x%-08x\n", commands[i].name,(uintptr_t)&commands[i].handler);      
        }
        
        printf("DEVICE_PROJECT  0x%-08x %-10s\n", (uintptr_t)&DEVICE_PROJECT, DEVICE_PROJECT);
