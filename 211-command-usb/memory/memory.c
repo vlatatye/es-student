@@ -2,6 +2,9 @@
 #include <stdint.h>
 #include "hardware/regs/addressmap.h"
 #include "pico/stdlib.h"
+#include "stdlib.h"
+#include "command.h"
+#include "device.h"
 extern char __flash_binary_start;
 extern char __flash_binary_end;
 extern char __boot2_start__;
@@ -15,6 +18,8 @@ extern char __HeapLimit;
 extern char __StackBottom;
 extern char __StackTop;
 int const ROM_SIZE = 16384;
+uint32_t data_variable = 100;
+uint32_t bss_variable;
 static void row(const char *name, uintptr_t start, uintptr_t end)
 {
     printf("%-10s 0x%08x 0x%08x %8u\n",
@@ -56,8 +61,39 @@ void mem_info(void)
            size_area((uintptr_t)&__bss_start__, (uintptr_t)&__bss_end__)),
            size_area((uintptr_t)&__data_start__, (uintptr_t)&__data_end__),
            size_area((uintptr_t)&__bss_start__, (uintptr_t)&__bss_end__));
-    printf("  ram free %-6d for heap and %-6d for stack",
+    printf("  ram free %-6d for heap and %-6d for stack\n",
            size_area((uintptr_t)&__bss_end__, (uintptr_t)&__HeapLimit), 
            size_area((uintptr_t)&__StackBottom, (uintptr_t)&__StackTop) );
-       
+    
 }
+int main(void);
+void fw_info(void)
+{
+       data_variable++;
+       bss_variable++;
+       uint16_t *main_code = (uint16_t *)((uintptr_t)main & ~1u);
+       uint16_t *fw_info_code = (uint16_t *)((uintptr_t)fw_info & ~1u);
+       printf("%-14s %-10s %-10s \n","object", "address", "value");
+       printf("main            0x%-08x 0x%-04x\n", (uintptr_t)&main,(uintptr_t)*main_code );
+       printf("fw_info         0x%-08x 0x%-04x\n", (uintptr_t)&fw_info,(uintptr_t)*fw_info_code );
+       printf("commands        0x%-08x\n", (uintptr_t)&commands);
+       for (uint i = 0; i < command_count; i++)
+       {
+           printf("-%-13s 0x%-08x\n", commands[i].name,(uintptr_t)&commands[i].handler);      
+       }
+       
+       printf("DEVICE_PROJECT  0x%-08x %-10s\n", (uintptr_t)&DEVICE_PROJECT, DEVICE_PROJECT);
+       printf("DEVICE_BOARD    0x%-08x %-10s\n", (uintptr_t)&DEVICE_BOARD, DEVICE_BOARD);
+       printf("data_variable   0x%-08x %-4d\n", (uintptr_t)&data_variable, data_variable);
+       printf("bss_variable    0x%-08x %-4d\n", (uintptr_t)&bss_variable, bss_variable);
+       uint32_t stack_variable = 1946;
+       uint32_t *heap_variable = malloc(sizeof(uint32_t));
+
+       if (heap_variable != NULL)
+       {
+        *heap_variable = 1951;
+       }
+       printf("stack_variable  0x%-08x %-4d\n", (uintptr_t)&stack_variable, stack_variable);
+       printf("heap_variable   0x%-08x %-4d\n", (uintptr_t)heap_variable, *heap_variable);
+       free(heap_variable);
+} 
