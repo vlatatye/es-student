@@ -36,11 +36,13 @@ void dev_info(void)
            sizeof(device_card.revision),
            offsetof(struct info_t, revision),
            device_card.revision);
-
+    unsigned fields = sizeof(device_card.version) + sizeof(device_card.name) + sizeof(device_card.revision);
+    
+    unsigned padding =sizeof(device_card)-fields;
     printf("fields %4d, sizeof %4d, padding %2d",
-           sizeof(device_card.revision)+sizeof(device_card.version)+sizeof(device_card.name),
+           fields,
            sizeof(device_card),
-           sizeof(device_card)-(sizeof(device_card.revision)+sizeof(device_card.version)+sizeof(device_card.name)));
+           padding);
 }
 void device_info(void)
 {
