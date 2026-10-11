@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 #include "led.h"
@@ -46,6 +47,10 @@ void cmd_fw_info(void)
 {
     fw_info();
 }
+void cmd_dev_info(void)
+{
+    dev_info();
+}
 // таблица комманд  объявлена теперь в command.h
 
 
@@ -56,7 +61,8 @@ const struct command_t commands[] = {
     { "version", cmd_version },
     { "ping", cmd_ping },
     { "mem_info", cmd_mem_info },
-    { "fw_info", cmd_fw_info }
+    { "fw_info", cmd_fw_info },
+    { "dev_info", cmd_dev_info}
 };
 const uint command_count = sizeof(commands) / sizeof(commands[0]);
 //#define  (sizeof(commands) / sizeof(commands[0]))
