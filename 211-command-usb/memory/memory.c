@@ -96,4 +96,8 @@ void fw_info(void)
        printf("stack_variable  0x%-08x %-4d\n", (uintptr_t)&stack_variable, stack_variable);
        printf("heap_variable   0x%-08x %-4d\n", (uintptr_t)heap_variable, *heap_variable);
        free(heap_variable);
+}
+void boot_info(void)
+{
+       
 } 

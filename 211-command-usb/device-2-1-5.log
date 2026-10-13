@@ -3,14 +3,14 @@
 устройство: 2e8a:000a
 серийный номер: 53032847190B8C1C
 порт: COM3
-начало: 2026-10-13T18:40:15
+начало: 2026-10-13T20:30:12
    0.000 --> dev_info
-   0.168 <-- dev_info
-   0.170 <-- dbg read_line:108 got dev_info
-   0.170 <-- struct           address      size  offset value
-   0.171 <-- device_card     0x20000fc8    20
-   0.172 <-- - version       0x20000fc8     4      0 0x00010000
-   0.172 <-- - name          0x20000fcc    13      4 es-cmd-usb
-   0.174 <-- - revision      0x20000fd9     1     17 2
-   0.175 <-- fields 18, sizeof 20, padding  2
+   0.172 <-- dev_info
+   0.173 <-- dbg read_line:113 got dev_info
+   0.175 <-- struct           address      size  offset value
+   0.176 <-- device_card     0x20000fc8    20
+   0.178 <-- - version       0x20000fc8     4      0 0x00010000
+   0.179 <-- - name          0x20000fcc    13      4 es-cmd-usb
+   0.180 <-- - revision      0x20000fd9     1     17 2
+   0.181 <-- fields 18, sizeof 20, padding 2
 итог: отправлено команд 1, принято строк 8
