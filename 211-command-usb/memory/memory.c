@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include "command.h"
 #include "device.h"
+#include "led.h"
+#define VECTOR_TABLE 0x10000100
+#define GPIO_IN_OFFSET 0x004
+
 extern char __flash_binary_start;
 extern char __flash_binary_end;
 extern char __boot2_start__;
@@ -17,6 +21,7 @@ extern char __bss_end__;
 extern char __HeapLimit;
 extern char __StackBottom;
 extern char __StackTop;
+
 int const ROM_SIZE = 16384;
 uint32_t data_variable = 100;
 uint32_t bss_variable;
@@ -99,5 +104,22 @@ void fw_info(void)
 }
 void boot_info(void)
 {
-       
+    const uint32_t *vectors = (const uint32_t *)VECTOR_TABLE;
+    uint32_t stack_top = vectors[0];
+    uint32_t reset_handler = vectors[1];
+    uint32_t reset_handler_addr = (uint32_t *)((uintptr_t)reset_handler & ~1u);
+    volatile uint32_t *gpio_in = (uint32_t *)(SIO_BASE + GPIO_IN_OFFSET);
+    uint32_t level = (*gpio_in >> led_pin()) & 1u;
+    //
+    
+    //
+
+    printf("%-14s 0x%08x\n ", "vector table", VECTOR_TABLE);
+    printf("  %-14s 0x%08x\n", "stack top", stack_top);
+    printf("  %-14s 0x%08x\n", "reset", reset_handler);
+    printf("  %-14s 0x%08x\n", "reset (even)", (uintptr_t)reset_handler_addr);
+    printf("%-14s 0x%08x\n", "gpio in", (uintptr_t)gpio_in);
+    printf("  %-14s %-2d\n", "led bit", level);
+    printf("  %-14s %-2d\n", "gpio_get", gpio_get(led_pin()));
+      
 } 
