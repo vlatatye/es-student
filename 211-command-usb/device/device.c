@@ -14,6 +14,11 @@ struct info_t device_card={
 
 void dev_info(void)
 {
+    volatile uint32_t *chip_id = (uint32_t *)(SYSINFO_BASE + SYSINFO_CHIP_ID_OFFSET);
+    uint32_t id = *chip_id;
+    uint32_t revision = (id & SYSINFO_CHIP_ID_REVISION_BITS)\
+    >> SYSINFO_CHIP_ID_REVISION_LSB;
+    device_card.revision=revision;
     device_card.name[sizeof(device_card.name) - 1] = '\0';
     printf("%-16s %-12s %-5s %-6s %-6s \n","struct", "address", "size", "offset", "value");
     printf("device_card     0x%08x %5u\n", (uintptr_t)&device_card, sizeof(device_card));
@@ -30,7 +35,7 @@ void dev_info(void)
            sizeof(device_card.name),
            offsetof(struct info_t, name),
            device_card.name);
-    printf("- %-13s 0x%08x %5u %6u %08x\n",
+    printf("- %-13s 0x%08x %5u %6u %-8x\n",
            "revision",
            &device_card.revision,
            sizeof(device_card.revision),
@@ -39,7 +44,7 @@ void dev_info(void)
     unsigned fields = sizeof(device_card.version) + sizeof(device_card.name) + sizeof(device_card.revision);
     
     unsigned padding =sizeof(device_card)-fields;
-    printf("fields %4d, sizeof %4d, padding %2d",
+    printf("fields %2d, sizeof %2d, padding %2d\n",
            fields,
            sizeof(device_card),
            padding);
