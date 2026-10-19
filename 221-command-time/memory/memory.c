@@ -107,7 +107,9 @@ void boot_info(void)
     const uint32_t *vectors = (const uint32_t *)VECTOR_TABLE;
     uint32_t stack_top = vectors[0];
     uint32_t reset_handler = vectors[1];
-    uint32_t reset_handler_addr = (uint32_t *)((uintptr_t)reset_handler & ~1u);
+   // uint32_t reset_handler_addr = (uint32_t *)((uintptr_t)reset_handler & ~1u);
+    uint32_t reset_handler_addr = (uintptr_t)reset_handler & ~1u;
+
     volatile uint32_t *gpio_in = (uint32_t *)(SIO_BASE + SIO_GPIO_IN_OFFSET);
     uint32_t level = (*gpio_in >> led_pin()) & 1u;
     //
