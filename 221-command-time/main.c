@@ -9,6 +9,7 @@
 #include "memory.h"
 #include "command.h"
 #include "clock.h"
+#include "profiling.h"
 
 // функции - обработчики команд
 
@@ -79,6 +80,15 @@ void cmd_calc_pi(void)
     printf("pi: %.8f\n", pi_result);
     printf("time: %llu ms\n", spent_us / 1000);
 }
+void main_time_exec(void)
+{
+    printf("iteration avg %.2f us, max %u us\n", profiling_avg_us(), (unsigned)profiling_max_us());
+}
+void main_time_reset(void)
+{
+    profiling_reset_max();
+    printf("max reset\n");
+}
 // таблица комманд  объявлена теперь в command.h
 
 
@@ -93,7 +103,9 @@ const struct command_t commands[] = {
     { "boot_info", cmd_boot_info},
     { "clk_info", cmd_clk_info},
     { "uptime", cmd_uptime},
-    { "calc_pi", cmd_calc_pi }
+    { "calc_pi", cmd_calc_pi },
+    { "main_time_reset", main_time_reset},
+    { "main_time_exec", main_time_exec}
 };
 const uint command_count = sizeof(commands) / sizeof(commands[0]);
 //#define  (sizeof(commands) / sizeof(commands[0]))
@@ -173,10 +185,11 @@ int main()
     stdio_init_all();
     
     led_init();
-    
+    profiling_init();
     
     while (1)
     {
+       profiling_iteration();
        blink(); 
        read_line();
      
